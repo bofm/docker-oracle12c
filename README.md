@@ -14,7 +14,7 @@
 1.  download `linuxamd64_12102_database_1of2.zip` and `linuxamd64_12102_database_2of2.zip` from [oracle.com](http://www.oracle.com/technetwork/database/enterprise-edition/downloads/database12c-linux-download-2240591.html) and extract the archives to current directory.
 2. Execute the following lines in bash:
 ```shell
-git clone bofm/docker-oracle12c
+git clone https://github.com/bofm/docker-oracle12c.git
 cd docker-oracle12c
 make all
 ```
