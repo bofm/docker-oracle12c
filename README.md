@@ -7,7 +7,7 @@
 * `docker logs` shows all the logs prefixed with log source (in the style of syslog).
 * Uses `trap` to handle signals and shutdown gracefully.
 * Data and logs go to `/data`, so that `-v /data` could be used.
-* Mounts 40% of RAM to `/dev/shm` as shared memory. Can be changed in `entrypoint.sh`.
+* Mounts 40% of RAM to `/dev/shm` as shared memory. Can be changed in [entrypoint.sh](step2/entrypoint.sh).
 
 
 ## Build
@@ -69,10 +69,10 @@ make all
 
 ### Limitations and Bugs
 * `--privileged` option is required to mount /dev/shm to use Oracle's automatic memory management.
-* 12.1.0.2's dbca always creates database with unnecessary stuff (like APEX, OLAP, example schemas, etc.), although these options are disabled in the database template `db_template.dbc`. Seems to be Oracle's bug.
+* 12.1.0.2's dbca always creates database with unnecessary stuff (like APEX, OLAP, example schemas, etc.), although these options are disabled in the database template [db_template.dbc](step2/db_template.dbc). Seems to be Oracle's bug.
 
 ### License
-* This repo - [MIT License](http://opensource.org/licenses/MIT).
+* This repo - [MIT License](LICENSE).
 * Oracle Database software - see [Database Licensing Information](http://docs.oracle.com/database/121/DBLIC/toc.htm).
 
 ### TODO
