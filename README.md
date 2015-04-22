@@ -7,7 +7,7 @@
 * `docker logs` shows all the logs prefixed with log source (in the style of syslog).
 * Uses `trap` to handle signals and shutdown gracefully.
 * Data and logs go to `/data`, so that `-v /data` could be used.
-* Mounts 40% of RAM to `/dev/shm` as shared memory. Can be changed in [entrypoint.sh](step2/entrypoint.sh).
+* Mounts 50% of total memory to `/dev/shm` as shared memory. Oracle instance uses 40% of total memory. Can be changed in [entrypoint.sh](step2/entrypoint.sh) and [create_database.sh](step2/create_database.sh).
 
 
 ## Build
