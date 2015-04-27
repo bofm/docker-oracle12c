@@ -9,7 +9,11 @@ ccend=\033[0m
 
 .PHONY: all clean
 
-all: preinstall install postinstall
+# Use bofm/oracle12c:preinstall from Docker Hub
+all: install postinstall
+
+# Build from scratch
+full: preinstall install postinstall
 
 clean:
 	@[ `docker images -q --filter "dangling=true"| wc -l` -gt 0 ] && docker rmi `docker images -q --filter "dangling=true"` || true

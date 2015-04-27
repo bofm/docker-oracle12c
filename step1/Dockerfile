@@ -29,5 +29,7 @@ RUN mkdir -p $ORACLE_BASE && chown -R oracle:oinstall $ORACLE_BASE && \
     mkdir -p /app/oraInventory && \
     chown -R oracle:oinstall /app/oraInventory && \
     chmod -R 775 /app/oraInventory && \
-    chmod 664 /etc/oraInst.loc
+    chmod 664 /etc/oraInst.loc && \
+    chmod a+x /tmp/install/install.sh
+
 
