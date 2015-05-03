@@ -6,7 +6,7 @@ COPY db_template.dbc /tmp/
 COPY colorecho /bin/
 COPY entrypoint.sh /bin/
 COPY entrypoint_oracle.sh /bin/
-COPY create_database.sh /tmp/
+COPY create_database.sh ora_env /tmp/
 EXPOSE 1521
 ENTRYPOINT ["entrypoint.sh"]
 CMD ["database", "--shm"]
