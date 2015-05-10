@@ -69,7 +69,6 @@ make all
 
 ### Limitations and Bugs
 * `--privileged` option is required to mount /dev/shm to use Oracle's automatic memory management.
-* 12.1.0.2's dbca always creates database with unnecessary stuff (like APEX, OLAP, example schemas, etc.), although these options are disabled in the database template [db_template.dbc](step2/db_template.dbc). Seems to be a bug of dbca.
 
 ### License
 * This repo - [MIT License](LICENSE).

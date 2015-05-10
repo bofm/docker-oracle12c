@@ -12,6 +12,7 @@ if [ "$1" = 'listener' ]; then
 	trap "echo_red 'Caught SIGTERM signal, shutting down listener...'; lsnrctl stop" SIGTERM
 	trap "echo_red 'Caught SIGINT signal, shutting down listener...'; lsnrctl stop" SIGINT
 	tail -F -n 0 $listener_log | while read line; do echo -e "listener: $line"; done &
+	TAIL_LSNR_PID=$!
 	lsnrctl start
 	wait %1
 
@@ -26,10 +27,11 @@ elif [ "$1" = 'database' ]; then
 		echo_yellow "Starting listener..."
 		tail -F -n 0 $listener_log | while read line; do echo -e "listener: $line"; done &
 		lsnrctl start | while read line; do echo -e "lsnrctl: $line"; done
+		TAIL_LSNR_PID=$!
 		echo_yellow "Starting database..."
 		trap_db
 		tail -F -n 0 $alert_log | while read line; do echo -e "alertlog: $line"; done &
-		TAIL_PID=$!
+		TAIL_ALERT_PID=$!
 		sqlplus / as sysdba <<-EOF |
 			pro Starting with pfile='$pfile' ...
 			startup pfile='$pfile';
@@ -37,28 +39,29 @@ elif [ "$1" = 'database' ]; then
 			exit 0
 		EOF
 		while read line; do echo -e "sqlplus: $line"; done
-		wait $TAIL_PID
+		wait $TAIL_ALERT_PID
 	}
 
 	create_db() {
 		echo_yellow "Database does not exist. Creating database..."
 		date "+%F %T"
 		tail -F -n 0 $alert_log | while read line; do echo -e "alertlog: $line"; done &
-		TAIL_PID=$!
+		TAIL_ALERT_PID=$!
 		tail -F -n 0 $listener_log | while read line; do echo -e "listener: $line"; done &
 		lsnrctl start | while read line; do echo -e "lsnrctl: $line"; done
+		TAIL_LSNR_PID=$!
 		/tmp/create_database.sh
 		echo_green "Database created."
 		date "+%F %T"
 		trap_db
-		wait $TAIL_PID
+		wait $TAIL_ALERT_PID
 	}
 
 	stop() {
 		shu_immediate
-		kill $TAIL_PID
 		echo_yellow "Shutting down listener..."
 		lsnrctl stop | while read line; do echo -e "lsnrctl: $line"; done
+		kill $TAIL_ALERT_PID $TAIL_LSNR_PID
 		exit 0
 	}
 

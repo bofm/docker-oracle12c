@@ -15,7 +15,7 @@ tail -n0 -F $log | while read line; do echo -e "dbca_log: $line"; done &
 DBCA_TAIL_PID=$!
 
 dbca -silent -createDatabase \
-	-templateName              /tmp/db_template.dbc \
+	-templateName              /tmp/db_template.dbt \
 	-gdbName                   $ORACLE_SID \
 	-sid                       $ORACLE_SID \
 	-responseFile              NO_VALUE \
@@ -30,7 +30,7 @@ dbca -silent -createDatabase \
 	-storageType               FS \
 	-variables                 ORACLE_DATA=$ORACLE_DATA \
 	-initParams                audit_file_dest=$ORACLE_DATA/admin/$ORACLE_SID/adump,diagnostic_dest=$ORACLE_DATA,filesystemio_options=SETALL \
-	-sampleSchema              false \
+	-sampleSchema              true \
 	-automaticMemoryManagement true \
 	-databaseType              MULTIPURPOSE \
 	| while read line; do echo -e "dbca: $line"; done
