@@ -7,6 +7,8 @@ COPY colorecho /bin/
 COPY entrypoint.sh /bin/
 COPY entrypoint_oracle.sh /bin/
 COPY create_database.sh ora_env /tmp/
+RUN chmod +x /bin/entrypoint.sh /bin/entrypoint_oracle.sh /tmp/create_database.sh /tmp/ora_env /bin/colorecho
+ENV PATH=$PATH:/usr/bin:/usr/local/bin
 EXPOSE 1521
 ENTRYPOINT ["entrypoint.sh"]
 CMD ["database", "--shm"]
