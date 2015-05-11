@@ -39,7 +39,7 @@ make all
   docker logs oracle_database
 
   # Check alert log
-  docker logs oracle_database | grep alert:
+  docker logs oracle_database | grep alertlog:
 
   # Check listener log
   docker logs oracle_database | grep listener:
