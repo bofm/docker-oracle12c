@@ -48,6 +48,12 @@ make all
 * SQL*Plus, RMAN or any other program
 
   ```bash
+  # Bash
+  # as root
+  docker exec -it oracle_database bash
+  # as oracle
+  docker exec -it oracle_database gosu oracle bash
+
   # Run sqlplus in the running container
   docker exec -it oracle_database gosu oracle sqlplus / as sysdba
 
