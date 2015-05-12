@@ -23,14 +23,24 @@ make all
 *Note: In the following examples `oracle_database` is the name of the container.*
 
 * Create or run database and listener
-
-  ```bash
-  # Daemon mode
-  docker run -d --privileged --name oracle_database -p 1521:1521 -v /data bofm/oracle12c
-
-  # Foreground mode
-  docker run -it --privileged --name oracle_database -p 1521:1521 -v /data bofm/oracle12c
-  ```
+  * Daemon mode
+    
+    ```bash
+    # Create and start
+    docker run -d --privileged --name oracle_database -p 1521:1521 -v /data bofm/oracle12c
+    # Stop
+    docker stop -t 120 oracle_database
+    # Start again
+    docker start oracle_database
+    ```
+    **Important:** Always stop with `-t`, otherwise Docker will kill the database instance, if it doesn't shut down in 10 seconds.
+  * Foreground mode
+    
+    ```bash
+    # Start
+    docker run -it --privileged --name oracle_database -p 1521:1521 -v /data bofm/oracle12c
+    # `ctrl+c` (SIGINT) to stop
+    ```
 
 * Logs
 
