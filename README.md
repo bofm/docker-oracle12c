@@ -75,6 +75,7 @@ make all
 * Oracle Database software - see [Database Licensing Information](http://docs.oracle.com/database/121/DBLIC/toc.htm).
 
 ### TODO
-* rlwrap
+* rlwrap? (+50MB).
+* EM DBconsole
 * Archivelog mode option?
-* syslog-ng, maybe?
+* syslog-ng or rsyslog, maybe?
