@@ -74,5 +74,6 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", inline: <<-SHELL
     wget -qO- https://get.docker.com/ | sudo sh
     sudo echo 'DOCKER_OPTS="--storage-opt dm.basesize=20G"' >> /etc/default/docker
+    sudo usermod -aG docker vagrant
   SHELL
 end
