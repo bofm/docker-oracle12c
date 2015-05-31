@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 source colorecho
 trap "echo_red '******* ERROR: Something went wrong.'; exit 1" ERR

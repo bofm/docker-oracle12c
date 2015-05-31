@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ccred='\033[0;31m'
 ccyellow='\033[0;33m'

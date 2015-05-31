@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 
 trap "echo '******* Caught SIGINT signal. Stopping...'; exit 2" SIGINT
