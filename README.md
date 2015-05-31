@@ -26,7 +26,7 @@ make all
 
 * Create or run database and listener
   * Daemon mode
-    
+
     ```bash
     # Create and start
     docker run -d --privileged --name oracle_database -p 1521:1521 -v /data bofm/oracle12c
@@ -37,12 +37,33 @@ make all
     ```
     **Important:** Always stop with `-t`, otherwise Docker will kill the database instance, if it doesn't shut down in 10 seconds.
   * Foreground mode
-    
+
     ```bash
     # Start
     docker run -it --privileged --name oracle_database -p 1521:1521 -v /data bofm/oracle12c
     # `ctrl+c` (SIGINT) to stop
     ```
+
+* Create a gzipped tar archive suitable for `docker load` (an archive of the image with a created database and without volumes)
+
+  It is recommended to use large (>=20GB, the default is 10GB) Docker base volume size, for which Vagrant with [Vagrantfile](Vagrantfile) can be used.
+
+  ```bash
+  # Build everything and save the created image to a file.
+  #   This will echo something like this:
+  #     Image saved to: /some/path/docker_img_oracle_database_created_YYYY-MM-DD.tgz
+  make all docker-save
+
+  # The saved image can be loaded from the file
+  # The image will be loaded with tag bofm/oracle12c:created
+  docker load < docker_img_oracle_database_created_YYYY-MM-DD.tgz
+
+  # Run the image in the new container
+  # Daemon
+  docker run -d --privileged --name oracle_database -p 1521:1521 bofm/oracle12c:created
+  # Foreground
+  docker run -it --privileged --name oracle_database -p 1521:1521 bofm/oracle12c:created
+  ```
 
 * Logs
 

@@ -2,6 +2,7 @@ REPO = bofm/oracle12c
 NAME = oracle
 CURDIR = `pwd`
 OPTS =
+DOCKER_SAVE_FILENAME = docker_img_oracle_database_created_$$(date +%Y-%m-%d).tgz
 ccred=\033[0;31m
 ccgreen=\033[32m
 ccyellow=\033[0;33m
@@ -70,5 +71,19 @@ test3:
 	docker run -it $(OPTS) --name oracle_db_test $(REPO) database
 	docker rm -v oracle_db_test
 
-
+docker-save:
+	@echo "$(ccgreen)Running new container and creating database...$(ccend)"
+	docker run -d --privileged $(OPTS) --name oracle_db_test $(REPO) database --shm
+	docker logs -f oracle_db_test &
+	@while true; do \
+		docker logs oracle_db_test 2>/dev/null | grep "Database created." && break || sleep 20; \
+	done
+	@echo "$(ccgreen)Stopping container...$(ccend)"
+	docker stop -t 120 oracle_db_test
+	@echo "$(ccgreen)Committing image with tag '$(REPO):created' ...$(ccend)"
+	docker commit oracle_db_test $(REPO):created
+	@echo "$(ccgreen)Saving image...$(ccend)"
+	docker save $(REPO):created | gzip -c > $(DOCKER_SAVE_FILENAME)
+	@docker rm oracle_db_test > /dev/null
+	@echo "$(ccgreen)Image saved to: `readlink -f $(DOCKER_SAVE_FILENAME)`$(ccend)"
 
