@@ -115,7 +115,6 @@ make all
 * Oracle Database software - see [Database Licensing Information](http://docs.oracle.com/database/121/DBLIC/toc.htm).
 
 ### TODO
-* trap `docker stop` (SIGTERM)
 * rlwrap install script
 * EM DBconsole
 * Archivelog mode option?
