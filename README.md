@@ -1,6 +1,6 @@
 ## Goals
 * Provide an easy way to build a lightweight [Docker](http://www.docker.com/) image for [Oracle Database](http://docs.oracle.com/database/121/index.htm).
-* Be able to just run a new database and skip the complexity of installing software, creating and configuring database.
+* Just run a database and skip the complexity of installing software, creating and configuring database.
 
 ## Features
 * `docker run` creates and starts up a new database or the existing database, if it is already created.
