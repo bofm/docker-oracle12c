@@ -6,7 +6,7 @@ RUN yum -y install oracle-rdbms-server-12cR1-preinstall.x86_64 && \
     rm -rf /var/lib/{cache,log} /var/log/lastlog
 
 # Install gosu
-RUN curl -o /usr/local/bin/gosu -SL 'https://github.com/tianon/gosu/releases/download/1.3/gosu-amd64' \
+RUN curl -o /usr/local/bin/gosu -SL 'https://github.com/tianon/gosu/releases/download/1.4/gosu-amd64' \
     && chmod +x /usr/local/bin/gosu
 
 RUN echo "oracle:oracle" | chpasswd
