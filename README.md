@@ -116,6 +116,7 @@ make all
 
 ### TODO
 * rlwrap install script
+* use spfile
 * EM DBconsole
 * Archivelog mode option?
 * syslog-ng or rsyslog, maybe?
