@@ -8,6 +8,7 @@
 * Uses `trap` to handle signals and shutdown gracefully.
 * Data and logs go to `/data`, so that `-v /data` could be used.
 * Mounts 50% of total memory to `/dev/shm` as shared memory. Oracle instance uses 40% of total memory. Can be changed in [entrypoint.sh](step2/entrypoint.sh) and [create_database.sh](step2/create_database.sh).
+* rlwrap can be installed by running `/tmp/install/install_rlwrap.sh` (+ 50 MB on disk).
 
 
 ## Build
@@ -115,7 +116,6 @@ make all
 * Oracle Database software - see [Database Licensing Information](http://docs.oracle.com/database/121/DBLIC/toc.htm).
 
 ### TODO
-* rlwrap install script
 * use spfile
 * EM DBconsole
 * Archivelog mode option?
