@@ -22,7 +22,7 @@ ENV NLS_DATE_FORMAT=YYYY-MM-DD\ HH24:MI:SS \
     ORACLE_SID=ORCL \
     ORACLE_HOME_LISTNER=$ORACLE_HOME
 
-COPY *.rsp install.sh /tmp/install/
+COPY *.rsp install.sh install_rlwrap.sh /tmp/install/
 
 RUN mkdir -p $ORACLE_BASE && chown -R oracle:oinstall $ORACLE_BASE && \
     chmod -R 775 $ORACLE_BASE && \
