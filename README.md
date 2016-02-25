@@ -116,6 +116,7 @@ make all
 * Oracle Database software - see [Database Licensing Information](http://docs.oracle.com/database/121/DBLIC/toc.htm).
 
 ### TODO
+* Remove `--privileged` and use `--shm-size` instead
 * use spfile
 * EM DBconsole
 * Archivelog mode option?
