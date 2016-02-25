@@ -47,7 +47,7 @@ postinstall:
 install:
 	@echo "$(ccgreen)Installing Oracle Database software...$(ccend)"
 	@if docker ps -a|grep $(NAME)_install; then docker rm $(NAME)_install; fi
-	@docker run --name $(NAME)_install -v $(CURDIR)/../database:/tmp/install/database $(REPO):preinstall /tmp/install/install.sh
+	@docker run --privileged --name $(NAME)_install -v $(CURDIR)/../database:/tmp/install/database $(REPO):preinstall /tmp/install/install.sh
 	@echo "$(ccgreen)Committing image with tag 'installed'...$(ccend)"
 	@docker commit $(NAME)_install $(REPO):installed
 	@docker rm $(NAME)_install
