@@ -18,7 +18,7 @@ full: preinstall install postinstall
 
 clean:
 	@[ `docker images -q --filter "dangling=true"| wc -l` -gt 0 ] && docker rmi `docker images -q --filter "dangling=true"` || true
-	@[ `docker ps -aq | wc -l` -gt 0 ] && docker rm `docker ps -aq` || true
+	@[ `docker volume ls -q --filter "dangling=true"| wc -l` -gt 0 ] && docker volume rm `docker volume ls -q --filter "dangling=true"` || true
 
 clean2:
 	@echo `docker rm -v oracle > /dev/null 2>&1 && echo Container "oracle" has been removed.`
