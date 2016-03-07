@@ -7,7 +7,7 @@
 * `docker logs` shows all the logs prefixed with log source (in the style of syslog).
 * Uses `trap` to handle signals and shutdown gracefully.
 * Data and logs go to `/data`, so that `-v /data` could be used.
-* Mounts 50% of total memory to `/dev/shm` as shared memory. Oracle instance uses 40% of total memory. Can be changed in [entrypoint.sh](step2/entrypoint.sh) and [create_database.sh](step2/create_database.sh).
+* Oracle instance uses 40% of total memory. Can be changed in [create_database.sh](step2/create_database.sh).
 * rlwrap can be installed by running `bash /tmp/install/install_rlwrap.sh` (+ 50 MB on disk).
 
 
@@ -30,7 +30,7 @@ make all
 
     ```bash
     # Create and start
-    docker run -d --privileged --name oracle_database -p 1521:1521 -v /data bofm/oracle12c
+    docker run -d --shm-size 1GB --name oracle_database -p 1521:1521 -v /data bofm/oracle12c
     # Stop
     docker stop -t 120 oracle_database
     # Start again
@@ -41,7 +41,7 @@ make all
 
     ```bash
     # Start
-    docker run -it --privileged --name oracle_database -p 1521:1521 -v /data bofm/oracle12c
+    docker run -it --shm-size 1GB --name oracle_database -p 1521:1521 -v /data bofm/oracle12c
     # `ctrl+c` (SIGINT) to stop
     ```
 
@@ -61,9 +61,9 @@ make all
 
   # Run the image in the new container
   # Daemon
-  docker run -d --privileged --name oracle_database -p 1521:1521 bofm/oracle12c:created
+  docker run -d --shm-size 1GB --name oracle_database -p 1521:1521 bofm/oracle12c:created
   # Foreground
-  docker run -it --privileged --name oracle_database -p 1521:1521 bofm/oracle12c:created
+  docker run -it --shm-size 1GB --name oracle_database -p 1521:1521 bofm/oracle12c:created
   ```
 
 * Logs
@@ -108,7 +108,7 @@ make all
   ```
 
 ### Limitations and Bugs
-* `--privileged` option is required to mount /dev/shm to use Oracle's automatic memory management.
+* `--shm-size` option is required to mount /dev/shm to use Oracle's automatic memory management.
 * Database options and sample schemas installation through DBCA is a mystery. In this repo dbca is run with `-sampleSchema true` and [db_template.dbt](step2/db_template.dbt) contains this line `<option name="SAMPLE_SCHEMA" value="true"/>`, but nothing happens, the database is always created without sample schemas. Well, that's Oracle Database after 30+ years of development.
 
 ### License
@@ -116,7 +116,6 @@ make all
 * Oracle Database software - see [Database Licensing Information](http://docs.oracle.com/database/121/DBLIC/toc.htm).
 
 ### TODO
-* Remove `--privileged` and use `--shm-size` instead
 * use spfile
 * EM DBconsole
 * Archivelog mode option?

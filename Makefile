@@ -1,14 +1,15 @@
 REPO = bofm/oracle12c
 NAME = oracle
 CURDIR = `pwd`
-OPTS =
+SHM_SIZE = 1GB
+OPTS = --shm-size $(SHM_SIZE)
 DOCKER_SAVE_FILENAME = docker_img_oracle_database_created_$$(date +%Y-%m-%d).tgz
 ccred=\033[0;31m
 ccgreen=\033[32m
 ccyellow=\033[0;33m
 ccend=\033[0m
 
-.PHONY: all clean
+.PHONY: all
 
 # Use bofm/oracle12c:preinstall from Docker Hub
 all: install postinstall
@@ -47,24 +48,24 @@ postinstall:
 install:
 	@echo "$(ccgreen)Installing Oracle Database software...$(ccend)"
 	@if docker ps -a|grep $(NAME)_install; then docker rm $(NAME)_install; fi
-	@docker run --privileged --name $(NAME)_install -v $(CURDIR)/../database:/tmp/install/database $(REPO):preinstall /tmp/install/install.sh
+	@docker run $(OPTS) --name $(NAME)_install -v $(CURDIR)/../database:/tmp/install/database $(REPO):preinstall /tmp/install/install.sh
 	@echo "$(ccgreen)Committing image with tag 'installed'...$(ccend)"
 	@docker commit $(NAME)_install $(REPO):installed
 	@docker rm $(NAME)_install
 
 run:
-	@docker run --rm $(OPTS) --name $(NAME) -i -t $(REPO) bash
+	@docker run -it --rm $(OPTS) --name $(NAME) $(REPO) bash
 
-run-priv:
-	docker run -it --rm -v /data --privileged $(OPTS) --name $(NAME) $(REPO) bash --shm
+run-v:
+	docker run -it --rm -v /data $(OPTS) --name $(NAME) $(REPO) bash
 
 test:
-	docker run -it -v /data --privileged $(OPTS) --name oracle_db_test $(REPO) database --shm
+	docker run -it -v /data $(OPTS) --name oracle_db_test $(REPO) database
 	docker start -ia oracle_db_test
 	docker rm -v oracle_db_test
 
 test2:
-	docker run -it -v /data --privileged $(OPTS) --name oracle_db_test  $(REPO) database
+	docker run -it -v /data $(OPTS) --name oracle_db_test  $(REPO) database
 	docker rm -v oracle_db_test
 
 test3:
@@ -73,7 +74,7 @@ test3:
 
 docker-save:
 	@echo "$(ccgreen)Running new container and creating database...$(ccend)"
-	docker run -d --privileged $(OPTS) --name oracle_db_test $(REPO) database --shm
+	docker run -d $(OPTS) --name oracle_db_test $(REPO) database
 	docker logs -f oracle_db_test &
 	@while true; do \
 		docker logs oracle_db_test 2>/dev/null | grep "Database created." && break || sleep 20; \
