@@ -9,7 +9,6 @@ RUN yum -y install oracle-rdbms-server-12cR1-preinstall.x86_64 && \
 RUN curl -o /usr/local/bin/gosu -SL 'https://github.com/tianon/gosu/releases/download/1.7/gosu-amd64' \
     && chmod +x /usr/local/bin/gosu
 
-RUN echo "oracle:oracle" | chpasswd
 COPY sysctl.conf oraInst.loc /etc/
 COPY limits.conf /tmp/
 RUN cat /tmp/limits.conf >> /etc/security/limits.conf
