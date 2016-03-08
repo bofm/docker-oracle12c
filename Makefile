@@ -25,11 +25,11 @@ clean2:
 
 preinstall:
 	@echo "$(ccgreen)Building base image...$(ccend)"
-	# The following loop is a workaround for the bug of "docker build", related to device mapper.
-	# Bug example:
-	# INFO[0019] Error getting container ea069f9ff24469184e70e5ce9b2d6132a31109bf1d0a3e0e5d30e50da8cbd0b6 from driver devicemapper:
-	# Error mounting '/dev/mapper/docker-8:1-263449-ea069f9ff24469184e70e5ce9b2d6132a31109bf1d0a3e0e5d30e50da8cbd0b6' on
-	# '/var/lib/docker/devicemapper/mnt/ea069f9ff24469184e70e5ce9b2d6132a31109bf1d0a3e0e5d30e50da8cbd0b6': no such file or directory
+#	The following loop is a workaround for the bug of "docker build", related to device mapper.
+#	Bug example:
+#	INFO[0019] Error getting container ea069f9ff24469184e70e5ce9b2d6132a31109bf1d0a3e0e5d30e50da8cbd0b6 from driver devicemapper:
+#	Error mounting '/dev/mapper/docker-8:1-263449-ea069f9ff24469184e70e5ce9b2d6132a31109bf1d0a3e0e5d30e50da8cbd0b6' on
+#	'/var/lib/docker/devicemapper/mnt/ea069f9ff24469184e70e5ce9b2d6132a31109bf1d0a3e0e5d30e50da8cbd0b6': no such file or directory
 	@for n in `seq 10`; do \
 	    docker build -t $(REPO):preinstall step1 &&\
 	    break || echo "$(ccred)******* FAILED $$n times$(ccend)" && sleep 2;\
