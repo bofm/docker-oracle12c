@@ -107,6 +107,9 @@ make all
   docker run -d --name listener -p 1521:1521 --link <database_container> bofm/oracle12c listener
   ```
 
+### Compatibility
+* Tested on Docker 1.10.2
+
 ### Limitations and Bugs
 * `--shm-size` option is required to mount /dev/shm to use Oracle's automatic memory management.
 * Database options and sample schemas installation through DBCA is a mystery. In this repo dbca is run with `-sampleSchema true` and [db_template.dbt](step2/db_template.dbt) contains this line `<option name="SAMPLE_SCHEMA" value="true"/>`, but nothing happens, the database is always created without sample schemas. Well, that's Oracle Database after 30+ years of development.
