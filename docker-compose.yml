@@ -12,12 +12,6 @@ services:
       - '1521:1521'
     shm_size: 1GB
     ulimits: # https://docs.oracle.com/database/121/LADBI/usr_grps.htm#LADBI7674
-      nproc:
-        soft: 2047
-        hard: 16384
       nofile:
         soft: 1024
         hard: 65536
-      stack:
-        soft: 10240
-        hard: 32768
