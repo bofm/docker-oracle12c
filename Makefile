@@ -16,6 +16,7 @@ all: install postinstall
 
 # Build from scratch
 full: preinstall install postinstall
+docker-save: docker-commit-created docker-save-created
 
 clean:
 	@[ `docker images -q --filter "dangling=true"| wc -l` -gt 0 ] && docker rmi `docker images -q --filter "dangling=true"` || true
@@ -72,7 +73,7 @@ test3:
 	docker run -it $(OPTS) --name oracle_db_test $(REPO) database
 	docker rm -v oracle_db_test
 
-docker-save:
+docker-commit-created:
 	@echo "$(ccgreen)Running new container and creating database...$(ccend)"
 	docker run -d $(OPTS) --name oracle_db_test $(REPO) database
 	docker logs -f oracle_db_test &
@@ -83,6 +84,8 @@ docker-save:
 	docker stop -t 120 oracle_db_test
 	@echo "$(ccgreen)Committing image with tag '$(REPO):created' ...$(ccend)"
 	docker commit oracle_db_test $(REPO):created
+
+docker-save-created:
 	@echo "$(ccgreen)Saving image...$(ccend)"
 	docker save $(REPO):created | gzip -c > $(DOCKER_SAVE_FILENAME)
 	@docker rm oracle_db_test > /dev/null
