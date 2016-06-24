@@ -14,13 +14,20 @@ pfile=$ORACLE_DATA/dbs/init$ORACLE_SID.ora
 tail -n0 -F $log | while read line; do echo -e "dbca_log: $line"; done &
 DBCA_TAIL_PID=$!
 
+shm_size="$(( $(df | grep /dev/shm | head -1|awk '{print $2}') / 1024))"
+# Substract 16 MB here because Oracle is bad at math.
+# For example, passind -totalMemory 1889 results in Oracle's attempt to use
+# 1996488704 bytes, which is 1904 MB.
+memory_target=$(($shm_size - 16))
+echo_yellow Creatind database with MEMORY_TARGET="$memory_target"M
+
 dbca -silent -createDatabase \
 	-templateName              /tmp/db_template.dbt \
 	-gdbName                   $ORACLE_SID \
 	-sid                       $ORACLE_SID \
 	-responseFile              NO_VALUE \
 	-characterSet              AL32UTF8 \
-	-memoryPercentage          40 \
+	-totalMemory			   $memory_target \
 	-emConfiguration           LOCAL \
 	-sysPassword               sys \
 	-systemPassword            system \

@@ -1,13 +1,13 @@
 ## Goals
 * Provide an easy way to build a lightweight [Docker](http://www.docker.com/) image for [Oracle Database](http://docs.oracle.com/database/121/index.htm).
-* Just run a database and skip complexities of installation and configuration.
+* Just run a database and skip the complexities of installation and configuration.
 
 ## Features
 * `docker run` creates and starts up a new database or the existing database, if it is already created.
 * `docker logs` shows all the logs prefixed with log source (in the style of syslog).
 * Uses `trap` to handle signals and shutdown gracefully.
 * Data and logs are stored in `/data` so that `-v /data` could be used.
-* Oracle instance uses 40% of total memory. Can be changed in [create_database.sh](step2/create_database.sh).
+* Total memory used by Oracle instance (MEMORY_TARGET) is set depending on `--shm-size` parameter.
 * rlwrap can be installed by running `bash /tmp/install/install_rlwrap.sh` (+ 50 MB on disk).
 
 
