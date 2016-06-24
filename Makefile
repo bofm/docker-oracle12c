@@ -1,5 +1,5 @@
 REPO = bofm/oracle12c
-NAME = oracle
+NAME = aa_oracle_zz
 CURDIR = `pwd`
 SHM_SIZE = 1GB
 OPTS = --shm-size $(SHM_SIZE)
@@ -18,12 +18,12 @@ all: install postinstall
 full: preinstall install postinstall
 docker-save: docker-commit-created docker-save-created
 
-clean:
+docker_cleanup:
 	@[ `docker images -q --filter "dangling=true"| wc -l` -gt 0 ] && docker rmi `docker images -q --filter "dangling=true"` || true
 	@[ `docker volume ls -q --filter "dangling=true"| wc -l` -gt 0 ] && docker volume rm `docker volume ls -q --filter "dangling=true"` || true
 
-clean2:
-	@echo `docker rm -v oracle > /dev/null 2>&1 && echo Container "oracle" has been removed.`
+clean:
+	@echo `docker rm -v $(NAME) > /dev/null 2>&1 && echo Container "oracle" has been removed.`
 
 preinstall:
 	@echo "$(ccgreen)Building base image...$(ccend)"
@@ -54,40 +54,40 @@ install:
 	@docker commit $(NAME)_install $(REPO):installed
 	@docker rm $(NAME)_install
 
-run:
+bash:
 	@docker run -it --rm $(OPTS) --name $(NAME) $(REPO) bash
 
-run-v:
+bash-v:
 	docker run -it --rm -v /data $(OPTS) --name $(NAME) $(REPO) bash
 
 test:
-	docker run -it -v /data $(OPTS) --name oracle_db_test $(REPO) database
-	docker start -ia oracle_db_test
-	docker rm -v oracle_db_test
+	docker run -it -v /data $(OPTS) --name $(NAME) $(REPO) database
+	docker start -ia $(NAME)
+	docker rm -v $(NAME)
 
 test2:
-	docker run -it -v /data $(OPTS) --name oracle_db_test  $(REPO) database
-	docker rm -v oracle_db_test
+	docker run -it -v /data $(OPTS) --name $(NAME)  $(REPO) database
+	docker rm -v $(NAME)
 
 test3:
-	docker run -it $(OPTS) --name oracle_db_test $(REPO) database
-	docker rm -v oracle_db_test
+	docker run -it $(OPTS) --name $(NAME) $(REPO) database
+	docker rm -v $(NAME)
 
 docker-commit-created:
 	@echo "$(ccgreen)Running new container and creating database...$(ccend)"
-	docker run -d $(OPTS) --name oracle_db_test $(REPO) database
-	docker logs -f oracle_db_test &
+	docker run -d $(OPTS) --name $(NAME) $(REPO) database
+	docker logs -f $(NAME) &
 	@while true; do \
-		docker logs oracle_db_test 2>/dev/null | grep "Database created." && break || sleep 20; \
+		docker logs $(NAME) 2>/dev/null | grep "Database created." && break || sleep 20; \
 	done
 	@echo "$(ccgreen)Stopping container...$(ccend)"
-	docker stop -t 120 oracle_db_test
+	docker stop -t 120 $(NAME)
 	@echo "$(ccgreen)Committing image with tag '$(REPO):created' ...$(ccend)"
-	docker commit oracle_db_test $(REPO):created
+	docker commit $(NAME) $(REPO):created
 
 docker-save-created:
 	@echo "$(ccgreen)Saving image...$(ccend)"
 	docker save $(REPO):created | gzip -c > $(DOCKER_SAVE_FILENAME)
-	@docker rm oracle_db_test > /dev/null
+	@docker rm $(NAME) > /dev/null
 	@echo "$(ccgreen)Image saved to: `readlink -f $(DOCKER_SAVE_FILENAME)`$(ccend)"
 
