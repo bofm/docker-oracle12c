@@ -112,6 +112,7 @@ make all
 
 ### Limitations and Bugs
 * `--shm-size` option is required to mount /dev/shm to use Oracle's automatic memory management.
+* Oracle Database doesn't work with Docker ZFS storage driver by default. Check [this issue](https://github.com/bofm/docker-oracle12c/issues/10) for the workaround.
 * Database options and sample schemas installation through DBCA is a mystery. In this repo dbca is run with `-sampleSchema true` and [db_template.dbt](step2/db_template.dbt) contains this line `<option name="SAMPLE_SCHEMA" value="true"/>`, but nothing happens, the database is always created without sample schemas. Well, that's Oracle Database after 30+ years of development.
 
 ### License
