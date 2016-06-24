@@ -27,7 +27,7 @@ dbca -silent -createDatabase \
 	-sid                       $ORACLE_SID \
 	-responseFile              NO_VALUE \
 	-characterSet              AL32UTF8 \
-	-totalMemory			   $memory_target \
+	-totalMemory               $memory_target \
 	-emConfiguration           LOCAL \
 	-sysPassword               sys \
 	-systemPassword            system \
