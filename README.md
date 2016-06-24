@@ -108,7 +108,7 @@ make all
   ```
 
 ### Compatibility
-* Tested on Docker 1.10.2
+* Tested on Docker 1.12
 
 ### Limitations and Bugs
 * `--shm-size` option is required to mount /dev/shm to use Oracle's automatic memory management.
