@@ -120,7 +120,8 @@ make all
 * Oracle Database software - see [Database Licensing Information](http://docs.oracle.com/database/121/DBLIC/toc.htm).
 
 ### TODO
-* use spfile
+* create new databases faster
+* use spfile?
 * EM DBconsole
 * Archivelog mode option?
 * syslog-ng or rsyslog, maybe?
