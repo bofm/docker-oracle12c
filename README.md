@@ -84,15 +84,15 @@ make all
   ```bash
   # Bash
   # as root
-  docker exec -it oracle_database bash
+  docker exec -it -u root oracle_database bash
   # as oracle
-  docker exec -it oracle_database gosu oracle bash
+  docker exec -it oracle_database bash
 
   # Run sqlplus in the running container
-  docker exec -it oracle_database gosu oracle sqlplus / as sysdba
+  docker exec -it oracle_database sqlplus / as sysdba
 
   # Run rman in the running container
-  docker exec -it oracle_database gosu oracle rman target /
+  docker exec -it oracle_database rman target /
 
   # Run sqlplus in a separate container and
   # connect to the database in the linked container
